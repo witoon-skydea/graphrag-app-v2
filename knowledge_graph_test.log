@@ -1,0 +1,156 @@
+2025-04-21 04:19:22,655 - kg_test - INFO - เริ่มการทดสอบ GraphRAG Knowledge Graph Builder
+2025-04-21 04:19:22,655 - kg_test - INFO - ==== เริ่มการทดสอบการตั้งค่าเริ่มต้น ====
+2025-04-21 04:19:22,655 - src.embedding.embedding_manager - INFO - EmbeddingManager initialized with ollama (mxbai-embed-large)
+2025-04-21 04:19:22,655 - kg_test - INFO - สร้าง EmbeddingManager สำเร็จ: <src.embedding.embedding_manager.EmbeddingManager object at 0x1009e8da0>
+2025-04-21 04:19:22,655 - src.graphrag_engine.knowledge_graph.entity_extractor - INFO - EntityExtractor initialized with ollama using model mxbai-embed-large
+2025-04-21 04:19:22,655 - src.graphrag_engine.knowledge_graph.relationship_identifier - INFO - RelationshipIdentifier initialized with ollama using model mxbai-embed-large
+2025-04-21 04:19:22,655 - src.graphrag_engine.knowledge_graph.node_registry - INFO - NodeRegistry initialized with similarity threshold 0.85
+2025-04-21 04:19:22,655 - src.graphrag_engine.knowledge_graph.edge_generator - INFO - EdgeGenerator initialized with confidence threshold 0.5
+2025-04-21 04:19:22,655 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - KnowledgeGraphBuilder initialized with ollama extraction and ollama identification
+2025-04-21 04:19:22,655 - kg_test - INFO - สร้าง KnowledgeGraphBuilder สำเร็จ: <src.graphrag_engine.knowledge_graph.graph_builder.KnowledgeGraphBuilder object at 0x1012d6c00>
+2025-04-21 04:19:22,655 - kg_test - INFO - ==== เริ่มการทดสอบการประมวลผลเอกสาร ====
+2025-04-21 04:19:22,656 - kg_test - INFO - ประมวลผลไฟล์ TXT สำเร็จ: 8275 อักขระ, ใช้เวลา 0.00 วินาที
+2025-04-21 04:19:24,228 - kg_test - INFO - ประมวลผลไฟล์ DOCX สำเร็จ: 7100 อักขระ, ใช้เวลา 1.57 วินาที
+2025-04-21 04:19:24,353 - kg_test - INFO - ประมวลผลไฟล์ PDF (ข้อความ) สำเร็จ: 5835 อักขระ, ใช้เวลา 0.13 วินาที
+2025-04-21 04:19:40,570 - kg_test - INFO - ประมวลผลไฟล์ PDF (รูปภาพ) สำเร็จ: 921 อักขระ, ใช้เวลา 14.81 วินาที
+2025-04-21 04:19:40,570 - kg_test - INFO - ==== เริ่มการทดสอบการสร้าง Knowledge Graph ====
+2025-04-21 04:19:40,570 - src.graphrag_engine.knowledge_graph.entity_extractor - INFO - EntityExtractor initialized with ollama using model mxbai-embed-large
+2025-04-21 04:19:40,570 - src.graphrag_engine.knowledge_graph.relationship_identifier - INFO - RelationshipIdentifier initialized with ollama using model mxbai-embed-large
+2025-04-21 04:19:40,570 - src.graphrag_engine.knowledge_graph.node_registry - INFO - NodeRegistry initialized with similarity threshold 0.85
+2025-04-21 04:19:40,570 - src.graphrag_engine.knowledge_graph.edge_generator - INFO - EdgeGenerator initialized with confidence threshold 0.5
+2025-04-21 04:19:40,571 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - KnowledgeGraphBuilder initialized with ollama extraction and ollama identification
+2025-04-21 04:19:40,571 - kg_test - INFO - กำลังประมวลผลเอกสาร: txt_manual_skydea_cloudapi
+2025-04-21 04:19:40,571 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Extracting entities from document txt_manual_skydea_cloudapi
+2025-04-21 04:19:40,584 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:19:40,584 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Registering 0 entities as nodes
+2025-04-21 04:19:40,590 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph persisted to kg_test_data
+2025-04-21 04:19:40,591 - kg_test - INFO - ประมวลผลเอกสาร txt_manual_skydea_cloudapi สำเร็จ: พบ 0 entities, สร้าง 0 nodes และ 0 edges, ใช้เวลา 0.02 วินาที
+2025-04-21 04:19:40,591 - kg_test - INFO - กำลังประมวลผลเอกสาร: docx_test_subject
+2025-04-21 04:19:40,591 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Extracting entities from document docx_test_subject
+2025-04-21 04:19:40,596 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:19:40,596 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Registering 0 entities as nodes
+2025-04-21 04:19:40,597 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph persisted to kg_test_data
+2025-04-21 04:19:40,597 - kg_test - INFO - ประมวลผลเอกสาร docx_test_subject สำเร็จ: พบ 0 entities, สร้าง 0 nodes และ 0 edges, ใช้เวลา 0.01 วินาที
+2025-04-21 04:19:40,597 - kg_test - INFO - กำลังประมวลผลเอกสาร: pdf_text_CV Visutthichai Busayapongpakdee_2024
+2025-04-21 04:19:40,597 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Extracting entities from document pdf_text_CV Visutthichai Busayapongpakdee_2024
+2025-04-21 04:19:40,602 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:19:40,602 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Registering 0 entities as nodes
+2025-04-21 04:19:40,602 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph persisted to kg_test_data
+2025-04-21 04:19:40,602 - kg_test - INFO - ประมวลผลเอกสาร pdf_text_CV Visutthichai Busayapongpakdee_2024 สำเร็จ: พบ 0 entities, สร้าง 0 nodes และ 0 edges, ใช้เวลา 0.01 วินาที
+2025-04-21 04:19:40,602 - kg_test - INFO - กำลังประมวลผลเอกสาร: pdf_image_20250324140235_001
+2025-04-21 04:19:40,602 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Extracting entities from document pdf_image_20250324140235_001
+2025-04-21 04:19:40,606 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:19:40,607 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Registering 0 entities as nodes
+2025-04-21 04:19:40,607 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph persisted to kg_test_data
+2025-04-21 04:19:40,607 - kg_test - INFO - ประมวลผลเอกสาร pdf_image_20250324140235_001 สำเร็จ: พบ 0 entities, สร้าง 0 nodes และ 0 edges, ใช้เวลา 0.00 วินาที
+2025-04-21 04:19:40,607 - kg_test - INFO - กำลังประมวลผลทุกเอกสารเพื่อหาความสัมพันธ์ระหว่างเอกสาร
+2025-04-21 04:19:40,607 - src.graphrag_engine.knowledge_graph.entity_extractor - INFO - EntityExtractor initialized with ollama using model mxbai-embed-large
+2025-04-21 04:19:40,607 - src.graphrag_engine.knowledge_graph.relationship_identifier - INFO - RelationshipIdentifier initialized with ollama using model mxbai-embed-large
+2025-04-21 04:19:40,607 - src.graphrag_engine.knowledge_graph.node_registry - INFO - NodeRegistry initialized with similarity threshold 0.85
+2025-04-21 04:19:40,607 - src.graphrag_engine.knowledge_graph.edge_generator - INFO - EdgeGenerator initialized with confidence threshold 0.5
+2025-04-21 04:19:40,607 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - KnowledgeGraphBuilder initialized with ollama extraction and ollama identification
+2025-04-21 04:19:40,607 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Extracting entities from document txt_manual_skydea_cloudapi
+2025-04-21 04:19:40,611 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:19:40,612 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Registering 0 entities as nodes
+2025-04-21 04:19:40,612 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph persisted to kg_cross_doc_test
+2025-04-21 04:19:40,616 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:19:40,616 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Extracting entities from document docx_test_subject
+2025-04-21 04:19:40,620 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:19:40,620 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Registering 0 entities as nodes
+2025-04-21 04:19:40,620 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph persisted to kg_cross_doc_test
+2025-04-21 04:19:40,625 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:19:40,625 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Extracting entities from document pdf_text_CV Visutthichai Busayapongpakdee_2024
+2025-04-21 04:19:40,628 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:19:40,628 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Registering 0 entities as nodes
+2025-04-21 04:19:40,629 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph persisted to kg_cross_doc_test
+2025-04-21 04:19:40,633 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:19:40,633 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Extracting entities from document pdf_image_20250324140235_001
+2025-04-21 04:19:40,636 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:19:40,637 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Registering 0 entities as nodes
+2025-04-21 04:19:40,637 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph persisted to kg_cross_doc_test
+2025-04-21 04:19:40,641 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:19:40,641 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Processing cross-document relationships
+2025-04-21 04:19:40,641 - src.graphrag_engine.knowledge_graph.relationship_identifier - WARNING - Not enough entities to identify relationships
+2025-04-21 04:19:40,642 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph persisted to kg_cross_doc_test
+2025-04-21 04:19:40,642 - kg_test - INFO - ประมวลผลความสัมพันธ์ระหว่างเอกสารสำเร็จ: พบ 0 ความสัมพันธ์, สร้าง 0 เส้นเชื่อม, ใช้เวลา 0.03 วินาที
+2025-04-21 04:19:40,642 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph exported to kg_network_data.json
+2025-04-21 04:19:40,642 - kg_test - INFO - ส่งออกข้อมูล Knowledge Graph เป็นรูปแบบเครือข่ายสำเร็จ
+2025-04-21 04:19:40,642 - kg_test - INFO - การทดสอบเสร็จสิ้น ผลลัพธ์ถูกบันทึกใน test_results.json
+2025-04-21 04:21:49,757 - kg_test - INFO - เริ่มการทดสอบ GraphRAG Knowledge Graph Builder
+2025-04-21 04:21:49,757 - kg_test - INFO - ==== เริ่มการทดสอบการตั้งค่าเริ่มต้น ====
+2025-04-21 04:21:49,757 - src.embedding.embedding_manager - INFO - EmbeddingManager initialized with ollama (mxbai-embed-large)
+2025-04-21 04:21:49,757 - kg_test - INFO - สร้าง EmbeddingManager สำเร็จ: <src.embedding.embedding_manager.EmbeddingManager object at 0x10370c080>
+2025-04-21 04:21:49,757 - src.graphrag_engine.knowledge_graph.entity_extractor - INFO - EntityExtractor initialized with ollama using model mxbai-embed-large
+2025-04-21 04:21:49,757 - src.graphrag_engine.knowledge_graph.relationship_identifier - INFO - RelationshipIdentifier initialized with ollama using model mxbai-embed-large
+2025-04-21 04:21:49,757 - src.graphrag_engine.knowledge_graph.node_registry - INFO - NodeRegistry initialized with similarity threshold 0.85
+2025-04-21 04:21:49,757 - src.graphrag_engine.knowledge_graph.edge_generator - INFO - EdgeGenerator initialized with confidence threshold 0.5
+2025-04-21 04:21:49,757 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - KnowledgeGraphBuilder initialized with ollama extraction and ollama identification
+2025-04-21 04:21:49,757 - kg_test - INFO - สร้าง KnowledgeGraphBuilder สำเร็จ: <src.graphrag_engine.knowledge_graph.graph_builder.KnowledgeGraphBuilder object at 0x102e865d0>
+2025-04-21 04:21:49,757 - kg_test - INFO - ==== เริ่มการทดสอบการประมวลผลเอกสาร ====
+2025-04-21 04:21:49,757 - kg_test - INFO - ประมวลผลไฟล์ TXT สำเร็จ: 8275 อักขระ, ใช้เวลา 0.00 วินาที
+2025-04-21 04:21:49,819 - kg_test - INFO - ประมวลผลไฟล์ DOCX สำเร็จ: 7100 อักขระ, ใช้เวลา 0.06 วินาที
+2025-04-21 04:21:49,870 - kg_test - INFO - ประมวลผลไฟล์ PDF (ข้อความ) สำเร็จ: 5835 อักขระ, ใช้เวลา 0.05 วินาที
+2025-04-21 04:21:52,439 - kg_test - INFO - ประมวลผลไฟล์ PDF (รูปภาพ) สำเร็จ: 921 อักขระ, ใช้เวลา 1.08 วินาที
+2025-04-21 04:21:52,439 - kg_test - INFO - ==== เริ่มการทดสอบการสร้าง Knowledge Graph ====
+2025-04-21 04:21:52,439 - src.graphrag_engine.knowledge_graph.entity_extractor - INFO - EntityExtractor initialized with ollama using model mxbai-embed-large
+2025-04-21 04:21:52,439 - src.graphrag_engine.knowledge_graph.relationship_identifier - INFO - RelationshipIdentifier initialized with ollama using model mxbai-embed-large
+2025-04-21 04:21:52,439 - src.graphrag_engine.knowledge_graph.node_registry - INFO - NodeRegistry initialized with similarity threshold 0.85
+2025-04-21 04:21:52,439 - src.graphrag_engine.knowledge_graph.edge_generator - INFO - EdgeGenerator initialized with confidence threshold 0.5
+2025-04-21 04:21:52,439 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - KnowledgeGraphBuilder initialized with ollama extraction and ollama identification
+2025-04-21 04:21:52,439 - kg_test - INFO - กำลังประมวลผลเอกสาร: txt_manual_skydea_cloudapi
+2025-04-21 04:21:52,439 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Extracting entities from document txt_manual_skydea_cloudapi
+2025-04-21 04:21:52,451 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:21:52,451 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Registering 0 entities as nodes
+2025-04-21 04:21:52,457 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph persisted to kg_test_data
+2025-04-21 04:21:52,457 - kg_test - INFO - ประมวลผลเอกสาร txt_manual_skydea_cloudapi สำเร็จ: พบ 0 entities, สร้าง 0 nodes และ 0 edges, ใช้เวลา 0.02 วินาที
+2025-04-21 04:21:52,457 - kg_test - INFO - กำลังประมวลผลเอกสาร: docx_test_subject
+2025-04-21 04:21:52,457 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Extracting entities from document docx_test_subject
+2025-04-21 04:21:52,463 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:21:52,463 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Registering 0 entities as nodes
+2025-04-21 04:21:52,463 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph persisted to kg_test_data
+2025-04-21 04:21:52,463 - kg_test - INFO - ประมวลผลเอกสาร docx_test_subject สำเร็จ: พบ 0 entities, สร้าง 0 nodes และ 0 edges, ใช้เวลา 0.01 วินาที
+2025-04-21 04:21:52,463 - kg_test - INFO - กำลังประมวลผลเอกสาร: pdf_text_CV Visutthichai Busayapongpakdee_2024
+2025-04-21 04:21:52,463 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Extracting entities from document pdf_text_CV Visutthichai Busayapongpakdee_2024
+2025-04-21 04:21:52,469 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:21:52,469 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Registering 0 entities as nodes
+2025-04-21 04:21:52,469 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph persisted to kg_test_data
+2025-04-21 04:21:52,469 - kg_test - INFO - ประมวลผลเอกสาร pdf_text_CV Visutthichai Busayapongpakdee_2024 สำเร็จ: พบ 0 entities, สร้าง 0 nodes และ 0 edges, ใช้เวลา 0.01 วินาที
+2025-04-21 04:21:52,469 - kg_test - INFO - กำลังประมวลผลเอกสาร: pdf_image_20250324140235_001
+2025-04-21 04:21:52,469 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Extracting entities from document pdf_image_20250324140235_001
+2025-04-21 04:21:52,474 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:21:52,474 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Registering 0 entities as nodes
+2025-04-21 04:21:52,475 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph persisted to kg_test_data
+2025-04-21 04:21:52,475 - kg_test - INFO - ประมวลผลเอกสาร pdf_image_20250324140235_001 สำเร็จ: พบ 0 entities, สร้าง 0 nodes และ 0 edges, ใช้เวลา 0.01 วินาที
+2025-04-21 04:21:52,475 - kg_test - INFO - กำลังประมวลผลทุกเอกสารเพื่อหาความสัมพันธ์ระหว่างเอกสาร
+2025-04-21 04:21:52,475 - src.graphrag_engine.knowledge_graph.entity_extractor - INFO - EntityExtractor initialized with ollama using model mxbai-embed-large
+2025-04-21 04:21:52,475 - src.graphrag_engine.knowledge_graph.relationship_identifier - INFO - RelationshipIdentifier initialized with ollama using model mxbai-embed-large
+2025-04-21 04:21:52,475 - src.graphrag_engine.knowledge_graph.node_registry - INFO - NodeRegistry initialized with similarity threshold 0.85
+2025-04-21 04:21:52,475 - src.graphrag_engine.knowledge_graph.edge_generator - INFO - EdgeGenerator initialized with confidence threshold 0.5
+2025-04-21 04:21:52,475 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - KnowledgeGraphBuilder initialized with ollama extraction and ollama identification
+2025-04-21 04:21:52,475 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Extracting entities from document txt_manual_skydea_cloudapi
+2025-04-21 04:21:52,480 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:21:52,480 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Registering 0 entities as nodes
+2025-04-21 04:21:52,480 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph persisted to kg_cross_doc_test
+2025-04-21 04:21:52,484 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:21:52,484 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Extracting entities from document docx_test_subject
+2025-04-21 04:21:52,489 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:21:52,489 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Registering 0 entities as nodes
+2025-04-21 04:21:52,489 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph persisted to kg_cross_doc_test
+2025-04-21 04:21:52,493 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:21:52,493 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Extracting entities from document pdf_text_CV Visutthichai Busayapongpakdee_2024
+2025-04-21 04:21:52,498 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:21:52,498 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Registering 0 entities as nodes
+2025-04-21 04:21:52,498 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph persisted to kg_cross_doc_test
+2025-04-21 04:21:52,503 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:21:52,503 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Extracting entities from document pdf_image_20250324140235_001
+2025-04-21 04:21:52,508 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:21:52,508 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Registering 0 entities as nodes
+2025-04-21 04:21:52,508 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph persisted to kg_cross_doc_test
+2025-04-21 04:21:52,512 - src.graphrag_engine.knowledge_graph.entity_extractor - ERROR - Ollama API error: {"error":"\"mxbai-embed-large\" does not support generate"}
+2025-04-21 04:21:52,512 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Processing cross-document relationships
+2025-04-21 04:21:52,512 - src.graphrag_engine.knowledge_graph.relationship_identifier - WARNING - Not enough entities to identify relationships
+2025-04-21 04:21:52,513 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph persisted to kg_cross_doc_test
+2025-04-21 04:21:52,513 - kg_test - INFO - ประมวลผลความสัมพันธ์ระหว่างเอกสารสำเร็จ: พบ 0 ความสัมพันธ์, สร้าง 0 เส้นเชื่อม, ใช้เวลา 0.04 วินาที
+2025-04-21 04:21:52,513 - src.graphrag_engine.knowledge_graph.graph_builder - INFO - Knowledge graph exported to kg_network_data.json
+2025-04-21 04:21:52,513 - kg_test - INFO - ส่งออกข้อมูล Knowledge Graph เป็นรูปแบบเครือข่ายสำเร็จ
+2025-04-21 04:21:52,513 - kg_test - INFO - การทดสอบเสร็จสิ้น ผลลัพธ์ถูกบันทึกใน test_results.json

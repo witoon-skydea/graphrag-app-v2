@@ -59,7 +59,7 @@ class EmbeddingManager:
         # Set default model names based on source
         if not self.model_name:
             if embedding_source == "ollama":
-                self.model_name = "llama2"
+                self.model_name = "mxbai-embed-large"  # Updated default to mxbai-embed-large
             elif embedding_source == "openai":
                 self.model_name = "text-embedding-3-small"
             elif embedding_source == "anthropic":
@@ -72,7 +72,7 @@ class EmbeddingManager:
         # Set default API endpoints based on source
         if not self.api_endpoint:
             if embedding_source == "ollama":
-                self.api_endpoint = "http://localhost:11434/api/embed"
+                self.api_endpoint = "http://localhost:11434/api/embeddings"  # Fixed endpoint to use plural form
             elif embedding_source == "openai":
                 self.api_endpoint = "https://api.openai.com/v1/embeddings"
             elif embedding_source == "anthropic":
@@ -81,6 +81,10 @@ class EmbeddingManager:
                 self.api_endpoint = "https://generativelanguage.googleapis.com/v1/models"
             elif embedding_source == "openrouter":
                 self.api_endpoint = "https://openrouter.ai/api/v1/embeddings"
+        
+        # Set dimensions based on model
+        if embedding_source == "ollama" and self.model_name == "mxbai-embed-large":
+            self.dimensions = 1024  # mxbai-embed-large has 1024 dimensions
         
         logger.info(f"EmbeddingManager initialized with {embedding_source} ({self.model_name})")
     
@@ -163,11 +167,24 @@ class EmbeddingManager:
         
         if response.status_code == 200:
             result = response.json()
+            
+            # Handle both 'embedding' and 'embeddings' keys in the response
             if "embedding" in result:
                 return self._normalize_vector(result["embedding"])
+            elif "embeddings" in result:
+                # Extract the first embedding if it's an array
+                embeddings = result["embeddings"]
+                if len(embeddings) > 0:
+                    if isinstance(embeddings[0], list):
+                        return self._normalize_vector(embeddings[0])
+                    else:
+                        return self._normalize_vector(embeddings)
+                else:
+                    logger.error("Ollama API returned empty embeddings array")
+                    raise ValueError("Ollama API returned empty embeddings array")
             else:
                 logger.error(f"Unexpected Ollama API response: {result}")
-                raise ValueError("Ollama API response did not contain an embedding")
+                raise ValueError("Ollama API response did not contain embedding data")
         else:
             logger.error(f"Ollama API error: {response.status_code} - {response.text}")
             raise ValueError(f"Ollama API error: {response.status_code}")

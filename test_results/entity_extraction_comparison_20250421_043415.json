@@ -1,0 +1,16 @@
+[
+  {
+    "model": "mxbai-embed-large",
+    "execution_time": 0.011277198791503906,
+    "total_entities": 0,
+    "entity_counts": {},
+    "entities": []
+  },
+  {
+    "model": "gemma3:12b",
+    "execution_time": 0.4584038257598877,
+    "total_entities": 0,
+    "entity_counts": {},
+    "entities": []
+  }
+]

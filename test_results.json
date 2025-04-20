@@ -1,0 +1,149 @@
+{
+  "timestamp": "2025-04-21 04:21:52",
+  "document_processing": {
+    "txt": {
+      "status": "success",
+      "file_path": "/Users/witoonpongsilathong/MCP_folder/mm_dev_mode/manual_skydea_cloudapi.txt",
+      "content_length": 8275,
+      "metadata": {
+        "file_size": 14039,
+        "created_at": 1744949332.6071668,
+        "modified_at": 1744949298.7627752,
+        "file_type": "TXT"
+      },
+      "processing_time": 0.00023603439331054688,
+      "content": "# คู่มือการใช้งาน Skydea Cloud API\n\n## ข้อมูลทั่วไป\n- **API URL**: http://140.245.58.185/skydeaapi/\n- **เวอร์ชั่น**: 1.0.0\n- **รูปแบบข้อมูล**: JSON\n\n## การเข้าถึง API\nAPI นี้สามารถเข้าถึงได้ผ่าน HTTP ..."
+    },
+    "docx": {
+      "status": "success",
+      "file_path": "/Users/witoonpongsilathong/MCP_folder/test_subject.docx",
+      "content_length": 7100,
+      "metadata": {
+        "file_size": 9217,
+        "created_at": 1745155174.3819416,
+        "modified_at": 1745155174.318331,
+        "file_type": "DOCX"
+      },
+      "processing_time": 0.061591148376464844,
+      "content": "คำตอบโดยสรุป\n\n\t•\tmxbai-embed-large เหมาะสมกว่าในการ embed ข้อมูลจากไฟล์ PDF ที่เป็นรูปภาพหลังจากแปลงเป็นข้อความด้วย OCR  \n\n\t•\tสำหรับ RAG ควรใช้ mxbai-embed-large เนื่องจากออกแบบมาเพื่อการสร้าง embeddi..."
+    },
+    "pdf_text": {
+      "status": "success",
+      "file_path": "/Users/witoonpongsilathong/Library/CloudStorage/OneDrive-Personal/001one_2024/CV Visutthichai Busayapongpakdee_2024.pdf",
+      "content_length": 5835,
+      "metadata": {
+        "file_size": 82510,
+        "created_at": 1744852512.322902,
+        "modified_at": 1711429547.0,
+        "file_type": "PDF",
+        "title": "VUTTHICHAI   BUSSAYAPONGPAKDEE",
+        "author": "voody",
+        "creator": "Acrobat PDFMaker 11 for Word",
+        "producer": "Adobe PDF Library 11.0",
+        "page_count": 3
+      },
+      "processing_time": 0.05115103721618652,
+      "content": "MR.  VISUTTHICHAI BUSAYAPONGPAKDEE \n223/18 Somdej  Chao Phraya R oad, K hlong San, Bangkok, Thailand 10600  \nMobile:  (+6681) 829- 8910            E -mail:  visutthichai.b@gmail.com   \n \nPersonal Deta..."
+    },
+    "pdf_image": {
+      "status": "success",
+      "file_path": "/Users/witoonpongsilathong/Downloads/20250324140235_001.pdf",
+      "content_length": 921,
+      "metadata": {
+        "file_size": 478066,
+        "created_at": 1742863148.3057318,
+        "modified_at": 1742863147.1597667,
+        "file_type": "PDF",
+        "page_count": 1,
+        "extraction_method": "OCR"
+      },
+      "processing_time": 1.0831549167633057,
+      "content": "@yTrue\nocean\nwifotomuenar\nTnsanistrovinureadnsmsunnust PMOA 4.0 floailendifunassduamusnheeunnlg\n‘Tunrndusevusrenns 40 UsedaDavurennl 2568\nsei wo a5740/09\nGuu Garrsnoepainnndoveonfeuncadiessé\nnds viSn ...",
+      "image_extraction": {
+        "image_count": 1,
+        "ocr_processing_time": 1.4849858283996582,
+        "image_details": [
+          {
+            "page": 1,
+            "index": 1,
+            "text_length": 1181,
+            "sample_text": "@) True\nocean\nVUVaNVauasiar\n\nTasanrsdravianreadinsmansuat PMOA 4.0 iilaadiasuinfumsuseviuanuemiaseua..."
+          }
+        ]
+      }
+    }
+  },
+  "knowledge_graph": {
+    "individual_processing": {
+      "txt_manual_skydea_cloudapi": {
+        "status": "success",
+        "processing_time": 0.017980098724365234,
+        "document_id": "txt_manual_skydea_cloudapi",
+        "entities_extracted": 0,
+        "nodes_created": 0,
+        "relationships_identified": 0,
+        "edges_created": 0
+      },
+      "docx_test_subject": {
+        "status": "success",
+        "processing_time": 0.0059316158294677734,
+        "document_id": "docx_test_subject",
+        "entities_extracted": 0,
+        "nodes_created": 0,
+        "relationships_identified": 0,
+        "edges_created": 0
+      },
+      "pdf_text_CV Visutthichai Busayapongpakdee_2024": {
+        "status": "success",
+        "processing_time": 0.005945682525634766,
+        "document_id": "pdf_text_CV Visutthichai Busayapongpakdee_2024",
+        "entities_extracted": 0,
+        "nodes_created": 0,
+        "relationships_identified": 0,
+        "edges_created": 0
+      },
+      "pdf_image_20250324140235_001": {
+        "status": "success",
+        "processing_time": 0.005265951156616211,
+        "document_id": "pdf_image_20250324140235_001",
+        "entities_extracted": 0,
+        "nodes_created": 0,
+        "relationships_identified": 0,
+        "edges_created": 0
+      }
+    },
+    "entity_search": {
+      "PERSON": {
+        "count": 0,
+        "samples": []
+      },
+      "ORGANIZATION": {
+        "count": 0,
+        "samples": []
+      },
+      "URL": {
+        "count": 0,
+        "samples": []
+      }
+    },
+    "cross_document_processing": {
+      "status": "success",
+      "processing_time": 0.03800797462463379,
+      "documents_processed": 4,
+      "entities_extracted": 0,
+      "nodes_created": 0,
+      "relationships_identified": 0,
+      "edges_created": 0,
+      "cross_document_relationships": 0,
+      "cross_document_edges": 0
+    },
+    "graph_statistics": {
+      "total_nodes": 0,
+      "total_edges": 0,
+      "total_documents": 0,
+      "node_types": {},
+      "edge_types": {},
+      "average_degree": 0
+    }
+  }
+}

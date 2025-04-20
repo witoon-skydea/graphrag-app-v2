@@ -1,0 +1,8 @@
+{
+  "extraction_method": "ollama",
+  "identification_method": "ollama",
+  "model_name": "mxbai-embed-large",
+  "similarity_threshold": 0.85,
+  "confidence_threshold": 0.5,
+  "case_sensitive": false
+}

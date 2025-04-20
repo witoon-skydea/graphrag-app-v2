@@ -1,0 +1,16 @@
+[
+  {
+    "model": "llama3.2",
+    "execution_time": 0.44034314155578613,
+    "total_entities": 0,
+    "entity_counts": {},
+    "entities": []
+  },
+  {
+    "model": "gemma3:12b",
+    "execution_time": 0.4318981170654297,
+    "total_entities": 0,
+    "entity_counts": {},
+    "entities": []
+  }
+]

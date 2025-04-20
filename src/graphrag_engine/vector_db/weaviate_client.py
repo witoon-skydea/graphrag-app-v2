@@ -79,7 +79,8 @@ class VectorDBClient:
         self.batch_size = batch_size
         self.timeout_config = timeout_config
         self.schema_class_name = schema_class_name
-        self.default_vectorizer = default_vectorizer
+        # For testing, override vectorizer to none
+        self.default_vectorizer = "none"
         
         # Initialize the client
         self.client = self._init_client()
@@ -143,125 +144,47 @@ class VectorDBClient:
             # Define schema class
             class_obj = {
                 "class": self.schema_class_name,
-                "vectorizer": self.default_vectorizer,
-                "moduleConfig": {
-                    "text2vec-transformers": {
-                        "poolingStrategy": "masked_mean"
-                    } if self.default_vectorizer == "text2vec-transformers" else None,
-                    "text2vec-openai": {
-                        "model": "ada",
-                        "modelVersion": "002",
-                        "type": "text"
-                    } if self.default_vectorizer == "text2vec-openai" else None
-                },
+                "vectorizer": "none",
                 "properties": [
                     {
                         "name": "content",
                         "dataType": ["text"],
-                        "description": "The content of the document chunk",
-                        "moduleConfig": {
-                            "text2vec-transformers": {
-                                "skip": False,
-                                "vectorizePropertyName": False
-                            } if self.default_vectorizer == "text2vec-transformers" else None,
-                            "text2vec-openai": {
-                                "skip": False,
-                                "vectorizePropertyName": False
-                            } if self.default_vectorizer == "text2vec-openai" else None
-                        }
+                        "description": "The content of the document chunk"
                     },
                     {
                         "name": "title",
                         "dataType": ["text"],
-                        "description": "The title of the document",
-                        "moduleConfig": {
-                            "text2vec-transformers": {
-                                "skip": False,
-                                "vectorizePropertyName": True
-                            } if self.default_vectorizer == "text2vec-transformers" else None,
-                            "text2vec-openai": {
-                                "skip": False,
-                                "vectorizePropertyName": True
-                            } if self.default_vectorizer == "text2vec-openai" else None
-                        }
+                        "description": "The title of the document"
                     },
                     {
                         "name": "documentId",
                         "dataType": ["string"],
-                        "description": "The ID of the document",
-                        "moduleConfig": {
-                            "text2vec-transformers": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-transformers" else None,
-                            "text2vec-openai": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-openai" else None
-                        }
+                        "description": "The ID of the document"
                     },
                     {
                         "name": "chunkIndex",
                         "dataType": ["int"],
-                        "description": "The index of the chunk within the document",
-                        "moduleConfig": {
-                            "text2vec-transformers": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-transformers" else None,
-                            "text2vec-openai": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-openai" else None
-                        }
+                        "description": "The index of the chunk within the document"
                     },
                     {
                         "name": "documentType",
                         "dataType": ["string"],
-                        "description": "The type of document (pdf, docx, etc.)",
-                        "moduleConfig": {
-                            "text2vec-transformers": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-transformers" else None,
-                            "text2vec-openai": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-openai" else None
-                        }
+                        "description": "The type of document (pdf, docx, etc.)"
                     },
                     {
                         "name": "source",
                         "dataType": ["string"],
-                        "description": "The source of the document (file path, URL, etc.)",
-                        "moduleConfig": {
-                            "text2vec-transformers": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-transformers" else None,
-                            "text2vec-openai": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-openai" else None
-                        }
+                        "description": "The source of the document (file path, URL, etc.)"
                     },
                     {
                         "name": "metadata",
                         "dataType": ["text"],
-                        "description": "Additional metadata for the document in JSON format",
-                        "moduleConfig": {
-                            "text2vec-transformers": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-transformers" else None,
-                            "text2vec-openai": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-openai" else None
-                        }
+                        "description": "Additional metadata for the document in JSON format"
                     },
                     {
                         "name": "hasEntities",
                         "dataType": ["Entity"],
-                        "description": "Entities contained in this document chunk",
-                        "moduleConfig": {
-                            "text2vec-transformers": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-transformers" else None,
-                            "text2vec-openai": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-openai" else None
-                        }
+                        "description": "Entities contained in this document chunk"
                     }
                 ]
             }
@@ -269,99 +192,37 @@ class VectorDBClient:
             # Create Entity class for knowledge graph
             entity_class = {
                 "class": "Entity",
-                "vectorizer": self.default_vectorizer,
-                "moduleConfig": {
-                    "text2vec-transformers": {
-                        "poolingStrategy": "masked_mean"
-                    } if self.default_vectorizer == "text2vec-transformers" else None,
-                    "text2vec-openai": {
-                        "model": "ada",
-                        "modelVersion": "002",
-                        "type": "text"
-                    } if self.default_vectorizer == "text2vec-openai" else None
-                },
+                "vectorizer": "none",
                 "properties": [
                     {
                         "name": "text",
                         "dataType": ["text"],
-                        "description": "The text of the entity",
-                        "moduleConfig": {
-                            "text2vec-transformers": {
-                                "skip": False,
-                                "vectorizePropertyName": False
-                            } if self.default_vectorizer == "text2vec-transformers" else None,
-                            "text2vec-openai": {
-                                "skip": False,
-                                "vectorizePropertyName": False
-                            } if self.default_vectorizer == "text2vec-openai" else None
-                        }
+                        "description": "The text of the entity"
                     },
                     {
                         "name": "type",
                         "dataType": ["string"],
-                        "description": "The type of entity (PERSON, ORGANIZATION, etc.)",
-                        "moduleConfig": {
-                            "text2vec-transformers": {
-                                "skip": False,
-                                "vectorizePropertyName": True
-                            } if self.default_vectorizer == "text2vec-transformers" else None,
-                            "text2vec-openai": {
-                                "skip": False,
-                                "vectorizePropertyName": True
-                            } if self.default_vectorizer == "text2vec-openai" else None
-                        }
+                        "description": "The type of entity (PERSON, ORGANIZATION, etc.)"
                     },
                     {
                         "name": "occurrences",
                         "dataType": ["int"],
-                        "description": "Number of times this entity appears",
-                        "moduleConfig": {
-                            "text2vec-transformers": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-transformers" else None,
-                            "text2vec-openai": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-openai" else None
-                        }
+                        "description": "Number of times this entity appears"
                     },
                     {
                         "name": "metadata",
                         "dataType": ["text"],
-                        "description": "Additional metadata for the entity in JSON format",
-                        "moduleConfig": {
-                            "text2vec-transformers": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-transformers" else None,
-                            "text2vec-openai": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-openai" else None
-                        }
+                        "description": "Additional metadata for the entity in JSON format"
                     },
                     {
                         "name": "appearsIn",
                         "dataType": ["Document"],
-                        "description": "Documents in which this entity appears",
-                        "moduleConfig": {
-                            "text2vec-transformers": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-transformers" else None,
-                            "text2vec-openai": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-openai" else None
-                        }
+                        "description": "Documents in which this entity appears"
                     },
                     {
                         "name": "relatesTo",
                         "dataType": ["Entity"],
-                        "description": "Other entities related to this entity",
-                        "moduleConfig": {
-                            "text2vec-transformers": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-transformers" else None,
-                            "text2vec-openai": {
-                                "skip": True
-                            } if self.default_vectorizer == "text2vec-openai" else None
-                        }
+                        "description": "Other entities related to this entity"
                     }
                 ]
             }

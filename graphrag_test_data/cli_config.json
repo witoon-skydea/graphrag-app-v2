@@ -1,0 +1,8 @@
+{
+  "persist_path": "./graphrag_test_data",
+  "extraction_method": "ollama",
+  "identification_method": "ollama",
+  "model_name": "gemma3:12b",
+  "weaviate_url": "http://localhost:8080",
+  "initialized_at": "2025-04-21 04:51:38"
+}

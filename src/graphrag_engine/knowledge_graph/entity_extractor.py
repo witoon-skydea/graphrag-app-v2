@@ -61,7 +61,10 @@ class EntityExtractor:
         # Set up the endpoint based on extraction method
         if not self.endpoint:
             if extraction_method == "ollama":
+                # For entity extraction, we'll use the 'generate' endpoint
                 self.endpoint = "http://localhost:11434/api/generate"
+                # For embedding-only models, we'll switch to 'embeddings' endpoint if necessary
+                self.embeddings_endpoint = "http://localhost:11434/api/embeddings"
             elif extraction_method == "openai":
                 self.endpoint = "https://api.openai.com/v1/chat/completions"
             elif extraction_method == "anthropic":
@@ -137,15 +140,52 @@ JSON Response (ONLY include the JSON array, no other text):
         """Extract entities using local Ollama model."""
         prompt = self._create_prompt(text)
         
+        # Check if we're using an embedding-only model first
+        embedding_only_models = ["mxbai-embed-large", "nomic-embed-text", "all-minilm"]
+        
+        if self.model_name in embedding_only_models:
+            # For embedding-only models, we need to use a different approach
+            # Let's use a rule-based approach as a fallback
+            logger.warning(f"Model {self.model_name} is embedding-only. Using rule-based entity extraction instead.")
+            return self._extract_with_rules(text)
+        
+        # For LLM models that support text generation
         try:
-            response = requests.post(
-                self.endpoint,
-                json={
-                    "model": self.model_name,
-                    "prompt": prompt,
-                    "stream": False
-                }
-            )
+            # First try using gemma3:12b if specified
+            if self.model_name == "gemma3:12b":
+                logger.info("Using gemma3:12b for entity extraction")
+                # Gemma3 has a different prompt format for better entity extraction
+                gemma_prompt = f"""You are an expert entity extraction system.
+Extract all entities from the following text and return them in JSON format.
+Entity types to extract: {', '.join(self.entity_types)}
+
+TEXT:
+{text}
+
+Return a JSON array with objects in the following format:
+[{{"text": "entity text", "type": "ENTITY_TYPE", "start_pos": start_position, "end_pos": end_position}}]
+
+Ensure that the response is ONLY the JSON array, nothing else.
+"""
+                
+                response = requests.post(
+                    self.endpoint,
+                    json={
+                        "model": self.model_name,
+                        "prompt": gemma_prompt,
+                        "stream": False
+                    }
+                )
+            else:
+                # Other LLM models
+                response = requests.post(
+                    self.endpoint,
+                    json={
+                        "model": self.model_name,
+                        "prompt": prompt,
+                        "stream": False
+                    }
+                )
             
             if response.status_code != 200:
                 logger.error(f"Ollama API error: {response.text}")
@@ -163,9 +203,11 @@ JSON Response (ONLY include the JSON array, no other text):
                     return entities
                 except json.JSONDecodeError as e:
                     logger.error(f"Failed to parse Ollama response JSON: {e}")
+                    logger.debug(f"Response text: {response_text}")
                     return []
             else:
                 logger.error("No JSON found in Ollama response")
+                logger.debug(f"Response text: {response_text}")
                 return []
                 
         except Exception as e:
