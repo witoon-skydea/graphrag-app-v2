@@ -39,19 +39,24 @@ class EntityExtractor:
             api_key: API key for external APIs (required for OpenAI, Anthropic, Gemini)
             endpoint: Custom endpoint URL (default endpoint is used if not provided)
             entity_types: List of entity types to extract (e.g., 'PERSON', 'ORGANIZATION', 'LOCATION')
-                          If None, all types will be extracted
+                          If None, default types will be used. These entity_types override any settings
+                          in KnowledgeGraphBuilder.
         """
         self.extraction_method = extraction_method
         self.model_name = model_name
         self.api_key = api_key
         self.endpoint = endpoint
         
-        # Set default entity types if not provided
-        self.entity_types = entity_types or [
+        # Default entity types - used only if entity_types parameter is None
+        # When passed through KnowledgeGraphBuilder, the builder's entity_types take precedence
+        default_entity_types = [
             "PERSON", "ORGANIZATION", "LOCATION", "DATE", "TIME", 
             "MONEY", "PERCENT", "FACILITY", "PRODUCT", "EVENT",
             "WORK_OF_ART", "LAW", "LANGUAGE", "CONCEPT"
         ]
+        
+        # Use provided entity_types if available, otherwise use defaults
+        self.entity_types = entity_types or default_entity_types
         
         # Set up the endpoint based on extraction method
         if not self.endpoint:
@@ -170,11 +175,17 @@ JSON Response (ONLY include the JSON array, no other text):
     def _extract_with_openai(self, text: str) -> List[Dict[str, Any]]:
         """Extract entities using OpenAI API."""
         if not self.api_key:
+            logger.error("API key required for OpenAI extraction but none provided")
             raise ValueError("API key required for OpenAI extraction")
+        
+        if not text:
+            logger.warning("Empty text provided to _extract_with_openai")
+            return []
         
         prompt = self._create_prompt(text)
         
         try:
+            # Set timeout to avoid hanging indefinitely
             response = requests.post(
                 self.endpoint,
                 headers={
@@ -188,32 +199,92 @@ JSON Response (ONLY include the JSON array, no other text):
                         {"role": "user", "content": prompt}
                     ],
                     "temperature": 0.0
-                }
+                },
+                timeout=(10, 60)  # (connect timeout, read timeout)
             )
             
-            if response.status_code != 200:
-                logger.error(f"OpenAI API error: {response.text}")
+            if response is None:
+                logger.error("OpenAI API returned None response")
                 return []
                 
-            response_data = response.json()
-            response_text = response_data.get("choices", [{}])[0].get("message", {}).get("content", "")
+            if response.status_code != 200:
+                logger.error(f"OpenAI API error: Status code {response.status_code}, Response: {response.text}")
+                return []
+                
+            try:
+                response_data = response.json()
+            except json.JSONDecodeError as e:
+                logger.error(f"Failed to parse OpenAI API response as JSON: {e}, Response: {response.text}")
+                return []
+                
+            if not response_data:
+                logger.error("Empty response data from OpenAI API")
+                return []
+                
+            choices = response_data.get("choices", [])
+            if not choices:
+                logger.error("No choices in OpenAI API response")
+                return []
+                
+            first_choice = choices[0]
+            if not first_choice:
+                logger.error("Empty first choice in OpenAI API response")
+                return []
+                
+            message = first_choice.get("message", {})
+            if not message:
+                logger.error("No message in first choice of OpenAI API response")
+                return []
+                
+            response_text = message.get("content", "")
+            if not response_text:
+                logger.error("Empty content in message of OpenAI API response")
+                return []
             
             # Extract JSON from response
             json_match = re.search(r'\[\s*{.*}\s*\]', response_text, re.DOTALL)
-            if json_match:
-                json_str = json_match.group(0)
-                try:
-                    entities = json.loads(json_str)
-                    return entities
-                except json.JSONDecodeError as e:
-                    logger.error(f"Failed to parse OpenAI response JSON: {e}")
-                    return []
-            else:
-                logger.error("No JSON found in OpenAI response")
+            if not json_match:
+                logger.error("No JSON array found in OpenAI response text")
                 return []
                 
+            json_str = json_match.group(0)
+            try:
+                entities = json.loads(json_str)
+                
+                # Validate entities structure
+                valid_entities = []
+                for entity in entities:
+                    if not isinstance(entity, dict):
+                        logger.warning(f"Skipping non-dict entity: {entity}")
+                        continue
+                        
+                    if "text" not in entity or "type" not in entity:
+                        logger.warning(f"Skipping entity missing required fields: {entity}")
+                        continue
+                        
+                    # Ensure all required fields are present
+                    valid_entity = {
+                        "text": str(entity.get("text", "")),
+                        "type": str(entity.get("type", "UNKNOWN")),
+                        "start_pos": int(entity.get("start_pos", 0)),
+                        "end_pos": int(entity.get("end_pos", 0)),
+                        "metadata": entity.get("metadata", {})
+                    }
+                    valid_entities.append(valid_entity)
+                
+                return valid_entities
+            except json.JSONDecodeError as e:
+                logger.error(f"Failed to parse OpenAI response JSON: {e}, JSON string: {json_str}")
+                return []
+            except (TypeError, ValueError) as e:
+                logger.error(f"Error processing entities from OpenAI response: {e}")
+                return []
+                
+        except requests.RequestException as e:
+            logger.error(f"Network error when calling OpenAI API: {e}")
+            return []
         except Exception as e:
-            logger.error(f"Error calling OpenAI API: {e}")
+            logger.error(f"Unexpected error calling OpenAI API: {e}")
             return []
     
     def _extract_with_anthropic(self, text: str) -> List[Dict[str, Any]]:

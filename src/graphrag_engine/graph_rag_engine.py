@@ -8,14 +8,16 @@ providing a unified interface for the GraphRAG system.
 import os
 import logging
 import json
-from typing import List, Dict, Any, Optional, Union, Tuple, Set
+from typing import List, Dict, Any, Optional, Union, Tuple, Set, TYPE_CHECKING
 from pathlib import Path
 import hashlib
 from tqdm import tqdm
 import time
 
-from .knowledge_graph.graph_builder import KnowledgeGraphBuilder
-from .vector_db.weaviate_client import VectorDBClient
+# Use TYPE_CHECKING to avoid circular imports at runtime
+if TYPE_CHECKING:
+    from .knowledge_graph.graph_builder import KnowledgeGraphBuilder
+    from .vector_db.weaviate_client import VectorDBClient
 
 logger = logging.getLogger(__name__)
 
@@ -29,8 +31,8 @@ class GraphRAGEngine:
     
     def __init__(
         self,
-        knowledge_graph_builder: Optional[KnowledgeGraphBuilder] = None,
-        vector_db_client: Optional[VectorDBClient] = None,
+        knowledge_graph_builder = None,  # Type hint removed to avoid circular import
+        vector_db_client = None,  # Type hint removed to avoid circular import
         persist_path: Optional[str] = None,
         extraction_method: str = "ollama",
         identification_method: str = "ollama",
@@ -64,19 +66,27 @@ class GraphRAGEngine:
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
         
-        # Initialize components
-        self.kg_builder = knowledge_graph_builder or KnowledgeGraphBuilder(
-            extraction_method=extraction_method,
-            identification_method=identification_method,
-            model_name=model_name,
-            api_key=api_key,
-            persist_path=persist_path + "/knowledge_graph" if persist_path else None
-        )
+        # Import inside method to avoid circular imports
+        if knowledge_graph_builder is None:
+            from .knowledge_graph.graph_builder import KnowledgeGraphBuilder
+            knowledge_graph_builder = KnowledgeGraphBuilder(
+                extraction_method=extraction_method,
+                identification_method=identification_method,
+                model_name=model_name,
+                api_key=api_key,
+                persist_path=persist_path + "/knowledge_graph" if persist_path else None
+            )
         
-        self.vector_db = vector_db_client or VectorDBClient(
-            weaviate_url=weaviate_url,
-            openai_api_key=api_key if extraction_method == "openai" else None
-        )
+        if vector_db_client is None:
+            from .vector_db.weaviate_client import VectorDBClient
+            vector_db_client = VectorDBClient(
+                weaviate_url=weaviate_url,
+                openai_api_key=api_key if extraction_method == "openai" else None
+            )
+        
+        # Initialize components
+        self.kg_builder = knowledge_graph_builder
+        self.vector_db = vector_db_client
         
         # Create persistence directory if specified
         if self.persist_path:

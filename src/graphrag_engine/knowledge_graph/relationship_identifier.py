@@ -45,12 +45,13 @@ class RelationshipIdentifier:
             relationship_types: List of relationship types to identify (e.g., 'WORKS_FOR', 'LOCATED_IN')
                               If None, all types will be identified
             threshold: Confidence threshold for relationship identification (0.0-1.0)
+                      This is the minimum confidence value required for a relationship to be considered valid.
         """
         self.identification_method = identification_method
         self.model_name = model_name
         self.api_key = api_key
         self.endpoint = endpoint
-        self.threshold = threshold
+        self.confidence_threshold = threshold  # Renamed for consistency
         
         # Set default relationship types if not provided
         self.relationship_types = relationship_types or [
@@ -210,7 +211,7 @@ JSON Response (ONLY include the JSON array, no other text):
                     try:
                         relationships = json.loads(json_str)
                         # Filter relationships by confidence threshold
-                        relationships = [rel for rel in relationships if rel.get("confidence", 0) >= self.threshold]
+                        relationships = [rel for rel in relationships if rel.get("confidence", 0) >= self.confidence_threshold]
                         all_relationships.extend(relationships)
                     except json.JSONDecodeError as e:
                         logger.error(f"Failed to parse Ollama response JSON: {e}")
@@ -269,7 +270,7 @@ JSON Response (ONLY include the JSON array, no other text):
                     try:
                         relationships = json.loads(json_str)
                         # Filter relationships by confidence threshold
-                        relationships = [rel for rel in relationships if rel.get("confidence", 0) >= self.threshold]
+                        relationships = [rel for rel in relationships if rel.get("confidence", 0) >= self.confidence_threshold]
                         all_relationships.extend(relationships)
                     except json.JSONDecodeError as e:
                         logger.error(f"Failed to parse OpenAI response JSON: {e}")
@@ -330,7 +331,7 @@ JSON Response (ONLY include the JSON array, no other text):
                     try:
                         relationships = json.loads(json_str)
                         # Filter relationships by confidence threshold
-                        relationships = [rel for rel in relationships if rel.get("confidence", 0) >= self.threshold]
+                        relationships = [rel for rel in relationships if rel.get("confidence", 0) >= self.confidence_threshold]
                         all_relationships.extend(relationships)
                     except json.JSONDecodeError as e:
                         logger.error(f"Failed to parse Anthropic response JSON: {e}")
@@ -391,7 +392,7 @@ JSON Response (ONLY include the JSON array, no other text):
                     try:
                         relationships = json.loads(json_str)
                         # Filter relationships by confidence threshold
-                        relationships = [rel for rel in relationships if rel.get("confidence", 0) >= self.threshold]
+                        relationships = [rel for rel in relationships if rel.get("confidence", 0) >= self.confidence_threshold]
                         all_relationships.extend(relationships)
                     except json.JSONDecodeError as e:
                         logger.error(f"Failed to parse Gemini response JSON: {e}")
@@ -590,7 +591,7 @@ JSON Response (ONLY include the JSON array, no other text):
                 # Calculate co-occurrence strength (Jaccard similarity)
                 strength = common_freq / (freq1 + freq2 - common_freq) if (freq1 + freq2 - common_freq) > 0 else 0
                 
-                if strength >= self.threshold:
+                if strength >= self.confidence_threshold:
                     # Determine relationship type based on entity types or default to RELATED_TO
                     rel_type = self._infer_relationship_from_types(entity1["type"], entity2["type"]) or "RELATED_TO"
                     

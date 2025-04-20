@@ -15,10 +15,32 @@ from pathlib import Path
 
 import weaviate
 from weaviate.client import Client as WeaviateClient
-from weaviate.util import get_valid_uuid
 from weaviate.exceptions import WeaviateBaseError
 
 logger = logging.getLogger(__name__)
+
+# Define a fallback function for get_valid_uuid in case import fails
+def generate_valid_uuid(seed: str) -> str:
+    """
+    Generate a valid UUID v5 from a seed string.
+    This is a fallback function if weaviate.util.get_valid_uuid is not available.
+    
+    Args:
+        seed: Seed string for UUID generation
+        
+    Returns:
+        UUID string
+    """
+    # Use UUID5 with a namespace to ensure consistency for the same seed
+    namespace = uuid.UUID('00000000-0000-0000-0000-000000000000')
+    return str(uuid.uuid5(namespace, seed))
+
+# Try to import get_valid_uuid from weaviate, use fallback if it fails
+try:
+    from weaviate.util import get_valid_uuid
+except ImportError:
+    logger.warning("Could not import get_valid_uuid from weaviate.util, using fallback function")
+    get_valid_uuid = generate_valid_uuid
 
 class VectorDBClient:
     """
@@ -421,48 +443,75 @@ class VectorDBClient:
             UUID of the added chunk, or None if addition failed
         """
         try:
+            # Check if client is connected and ready
+            if not self.check_connection():
+                logger.error("Cannot add document chunk: Weaviate client is not connected")
+                return None
+                
+            # Check if required parameters are valid
+            if not chunk_text:
+                logger.warning("Empty chunk text provided, skipping chunk addition")
+                return None
+                
+            if not document_id:
+                logger.warning("Empty document ID provided, skipping chunk addition")
+                return None
+            
             # Convert any complex metadata to JSON string
             metadata_str = None
             if metadata:
-                metadata_str = json.dumps(metadata)
+                try:
+                    metadata_str = json.dumps(metadata)
+                except (TypeError, ValueError) as e:
+                    logger.warning(f"Failed to convert metadata to JSON: {e}, using empty metadata")
+                    metadata_str = "{}"
             
             # Create data object
             data_object = {
                 "content": chunk_text,
                 "documentId": document_id,
                 "chunkIndex": chunk_index,
-                "title": title,
-                "documentType": document_type,
-                "source": source
+                "title": title or "",  # Ensure title is never None
+                "documentType": document_type or "text",  # Ensure document_type is never None
+                "source": source or ""  # Ensure source is never None
             }
             
             if metadata_str:
                 data_object["metadata"] = metadata_str
             
             # Generate UUID based on document_id and chunk_index
-            uuid_seed = f"{document_id}_{chunk_index}"
-            chunk_uuid = get_valid_uuid(uuid_seed)
+            try:
+                uuid_seed = f"{document_id}_{chunk_index}"
+                chunk_uuid = get_valid_uuid(uuid_seed)
+            except Exception as e:
+                logger.error(f"Error generating UUID for chunk: {e}")
+                # Fallback to a random UUID
+                chunk_uuid = str(uuid.uuid4())
             
             # Add the chunk to Weaviate
-            if custom_vector:
-                result = self.client.data_object.create(
-                    self.schema_class_name,
-                    data_object,
-                    uuid=chunk_uuid,
-                    vector=custom_vector
-                )
-            else:
-                result = self.client.data_object.create(
-                    self.schema_class_name,
-                    data_object,
-                    uuid=chunk_uuid
-                )
+            try:
+                if custom_vector:
+                    result = self.client.data_object.create(
+                        self.schema_class_name,
+                        data_object,
+                        uuid=chunk_uuid,
+                        vector=custom_vector
+                    )
+                else:
+                    result = self.client.data_object.create(
+                        self.schema_class_name,
+                        data_object,
+                        uuid=chunk_uuid
+                    )
+                
+                logger.debug(f"Added chunk {chunk_index} for document {document_id}")
+                return result
+            except WeaviateBaseError as e:
+                logger.error(f"Weaviate error adding document chunk: {e}")
+                return None
             
-            logger.debug(f"Added chunk {chunk_index} for document {document_id}")
-            return result
-        
         except Exception as e:
-            logger.error(f"Error adding document chunk: {e}")
+            logger.error(f"Unexpected error adding document chunk: {e}")
             return None
     
     def add_document_chunks_batch(
